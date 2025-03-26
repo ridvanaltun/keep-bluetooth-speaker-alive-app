@@ -1,79 +1,91 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+# Keep Bluetooth Speaker Alive App <!-- omit in toc -->
 
-# Getting Started
+The app prevents your Bluetooth speaker from going into sleep mode by playing silent audio at regular intervals. Customize the interval (1-10 minutes) and enable/disable auto-start on boot. With a simple interface, this app ensures your speaker stays active for uninterrupted audio during your Android TV sessions.
 
->**Note**: Make sure you have completed the [React Native - Environment Setup](https://reactnative.dev/docs/environment-setup) instructions till "Creating a new application" step, before proceeding.
+# Table of Contents <!-- omit in toc -->
 
-## Step 1: Start the Metro Server
+- [Note on App Purpose](#note-on-app-purpose)
+- [Development Instructions](#development-instructions)
+  - [Prerequisites](#prerequisites)
+- [Accessing the App on Chromecast Devices](#accessing-the-app-on-chromecast-devices)
 
-First, you will need to start **Metro**, the JavaScript _bundler_ that ships _with_ React Native.
+## Note on App Purpose
 
-To start Metro, run the following command from the _root_ of your React Native project:
+This app was created to address an issue I faced as a Chromecast user with a Samsung soundbar (Samsung HW-C400/TK). When I am on the home page or not watching anything for 4-5 minutes, the soundbar goes into sleep mode, and I have to reconnect it via Bluetooth every time. This app aims to prevent the soundbar from going into sleep mode, solving this recurring inconvenience.
 
-```bash
-# using npm
-npm start
+## Development Instructions
 
-# OR using Yarn
-yarn start
+### Prerequisites
+
+Before starting development, ensure the following:
+
+- The Android TV and your development PC are connected to the same Wi-Fi network.
+- Developer Mode and USB Debugging Mode are enabled on the TV.
+
+### 1. Install Dependencies <!-- omit in toc -->
+
+Run the following command to install the necessary dependencies:
+
+```sh
+yarn install
 ```
 
-## Step 2: Start your Application
+### 2. Build the Android App <!-- omit in toc -->
 
-Let Metro Bundler run in its _own_ terminal. Open a _new_ terminal from the _root_ of your React Native project. Run the following command to start your _Android_ or _iOS_ app:
+Generate a debug build of the Android app:
 
-### For Android
-
-```bash
-# using npm
-npm run android
-
-# OR using Yarn
-yarn android
+```sh
+yarn run build:debug
 ```
 
-### For iOS
+### 3. Connect PC to TV via ADB <!-- omit in toc -->
 
-```bash
-# using npm
-npm run ios
+Find the local IP address of your TV and connect ADB:
 
-# OR using Yarn
-yarn ios
+```sh
+adb connect <TV_LOCAL_IP_ADDRESS>
 ```
 
-If everything is set up _correctly_, you should see your new app running in your _Android Emulator_ or _iOS Simulator_ shortly provided you have set up your emulator/simulator correctly.
+Verify the connection:
 
-This is one way to run your app — you can also run it directly from within Android Studio and Xcode respectively.
+```sh
+adb devices
+```
 
-## Step 3: Modifying your App
+Ensure your TV appears in the list.
 
-Now that you have successfully run the app, let's modify it.
+### 4. Install the APK on TV <!-- omit in toc -->
 
-1. Open `App.tsx` in your text editor of choice and edit some lines.
-2. For **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Developer Menu** (<kbd>Ctrl</kbd> + <kbd>M</kbd> (on Window and Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (on macOS)) to see your changes!
+Deploy the built APK to the TV:
 
-   For **iOS**: Hit <kbd>Cmd ⌘</kbd> + <kbd>R</kbd> in your iOS Simulator to reload the app and see your changes!
+```sh
+yarn run install:apk
+```
 
-## Congratulations! :tada:
+### 5. Run the App on TV <!-- omit in toc -->
 
-You've successfully run and modified your React Native App. :partying_face:
+Restart the app on the TV:
 
-### Now what?
+```sh
+yarn run relaunch:tv
+```
 
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [Introduction to React Native](https://reactnative.dev/docs/getting-started).
+### 6. Connect to Metro Bundler <!-- omit in toc -->
 
-# Troubleshooting
+Ensure the Metro Bundler server is running and configure the debug server on the TV:
 
-If you can't get this to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
+```sh
+yarn run android:shake
+```
 
-# Learn More
+Set the debug server IP address to your PC's local IP with port `8081`.
 
-To learn more about React Native, take a look at the following resources:
+That's it! You are now ready to start developing the TV app.
 
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+## Accessing the App on Chromecast Devices
+
+Please note that Google does not allow third-party apps to appear directly on the home screen of Chromecast devices. To access the app, follow these steps:
+
+1. **Go to Settings**: Navigate to `Configuration` on your Chromecast device.
+2. **Access Apps**: Select `Apps` from the menu.
+3. **Find the App**: In the `All Apps` section, locate and open the app you installed.
