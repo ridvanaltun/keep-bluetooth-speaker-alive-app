@@ -2,7 +2,7 @@
 
 The app prevents your Bluetooth speaker from going into sleep mode by playing silent audio at regular intervals. Customize the interval (1-10 minutes) and enable/disable auto-start on boot. With a simple interface, this app ensures your speaker stays active for uninterrupted audio during your Android TV sessions.
 
-# Table of Contents <!-- omit in toc -->
+## Table of Contents <!-- omit in toc -->
 
 - [Note on App Purpose](#note-on-app-purpose)
 - [Development Instructions](#development-instructions)
